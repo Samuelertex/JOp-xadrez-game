@@ -1,24 +1,69 @@
-# Compiled class file
-*.class
+package br.edu.unoesc.jogo;
 
-# Log file
-*.log
+import java.util.HashSet;
+import java.util.Set;
 
-# BlueJ files
-*.ctxt
+public class Main {
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+    private static final int MAX_TENTATIVAS = 6;
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+    public static void main(String[] args) {
+        Sort sorteador = new Sort();
+        InterfaceJogo ui = new InterfaceJogo();
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+        String palavraSecreta = sorteador.sortear();
+        Set<Character> letrasCorretas = new HashSet<>();
+        Set<Character> letrasErradas = new HashSet<>();
+
+        ui.mostrarMensagem("Bem-vindo ao Jogo da Forca!");
+
+        while (true) {
+            String estadoAtual = ui.construirEstado(palavraSecreta, letrasCorretas, letrasErradas);
+            String entrada = ui.solicitarLetra(estadoAtual);
+
+            if (entrada == null) {
+                ui.mostrarCancelamento();
+                break;
+            }
+
+            entrada = entrada.toLowerCase();
+
+            if (entrada.length() != 1 || !Character.isLetter(entrada.charAt(0))) {
+                ui.mostrarEntradaInvalida();
+                continue;
+            }
+
+            char letra = entrada.charAt(0);
+
+            if (letrasCorretas.contains(letra) || letrasErradas.contains(letra)) {
+                ui.mostrarLetraRepetida();
+                continue;
+            }
+
+            if (palavraSecreta.indexOf(letra) >= 0) {
+                letrasCorretas.add(letra);
+                if (todasLetrasAdivinhadas(palavraSecreta, letrasCorretas)) {
+                    ui.mostrarResultadoVitoria(palavraSecreta);
+                    break;
+                }
+            } else {
+                letrasErradas.add(letra);
+                int tentativasRestantes = MAX_TENTATIVAS - letrasErradas.size();
+                ui.mostrarLetraErrada(tentativasRestantes);
+                if (tentativasRestantes == 0) {
+                    ui.mostrarResultadoDerrota(palavraSecreta);
+                    break;
+                }
+            }
+        }
+    }
+
+    private static boolean todasLetrasAdivinhadas(String palavra, Set<Character> letrasCorretas) {
+        for (char letra : palavra.toCharArray()) {
+            if (!letrasCorretas.contains(letra)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
