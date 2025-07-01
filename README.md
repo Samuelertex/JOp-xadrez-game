@@ -1,6 +1,8 @@
 # JOp-Forca-game
 A final project where the creation of a chess game was requested.
 
+feito por Samuel Terra, Rafael Luiz e Diego Pasa
+
 Documentação - Jogo da Forca
 Manual de Uso
 Requisitos:
