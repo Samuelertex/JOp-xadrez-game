@@ -1,0 +1,52 @@
+package br.edu.unoesc.jogo;
+
+import javax.swing.*;
+import java.util.Set;
+
+public class InterfaceJogo {
+
+    public void mostrarMensagem(String mensagem) {
+        JOptionPane.showMessageDialog(null, mensagem);
+    }
+
+    public String solicitarLetra(String estadoAtual) {
+        return JOptionPane.showInputDialog(null, estadoAtual + "\nDigite uma letra:");
+    }
+
+    public void mostrarResultadoVitoria(String palavra) {
+        JOptionPane.showMessageDialog(null, "Parabéns! Você venceu!\nA palavra era: " + palavra);
+    }
+
+    public void mostrarResultadoDerrota(String palavra) {
+        JOptionPane.showMessageDialog(null, "Você perdeu! A palavra era: " + palavra);
+    }
+
+    public void mostrarLetraErrada(int tentativasRestantes) {
+        JOptionPane.showMessageDialog(null, "Letra errada! Tentativas restantes: " + tentativasRestantes);
+    }
+
+    public void mostrarLetraRepetida() {
+        JOptionPane.showMessageDialog(null, "Você já tentou essa letra.");
+    }
+
+    public void mostrarEntradaInvalida() {
+        JOptionPane.showMessageDialog(null, "Digite apenas uma letra válida.");
+    }
+
+    public void mostrarCancelamento() {
+        JOptionPane.showMessageDialog(null, "Jogo cancelado.");
+    }
+
+    public String construirEstado(String palavra, Set<Character> letrasCorretas, Set<Character> letrasErradas) {
+        StringBuilder sb = new StringBuilder("Palavra: ");
+        for (char letra : palavra.toCharArray()) {
+            if (letrasCorretas.contains(letra)) {
+                sb.append(letra).append(" ");
+            } else {
+                sb.append("_ ");
+            }
+        }
+        sb.append("\nLetras erradas: ").append(letrasErradas);
+        return sb.toString();
+    }
+}
