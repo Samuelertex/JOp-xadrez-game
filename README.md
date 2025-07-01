@@ -1,4 +1,4 @@
-# JOp-xadrez-game
+# JOp-Forca-game
 A final project where the creation of a chess game was requested.
 
 Documentação - Jogo da Forca
